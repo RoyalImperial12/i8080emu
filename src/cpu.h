@@ -8,10 +8,7 @@
 // Main Include
 #include "i8080.h"
 
-// Includes
-#include <bitset>
-
-// Defines
+// Defines - FUTURE TO BE DECIDED
 #define I8080_REG_A 7
 #define I8080_REG_B 0
 #define I8080_REG_C 1
@@ -25,7 +22,23 @@
 #define I8080_REG_DE 2
 #define I8080_REG_HL 4
 
+#define I8080_FLAG_C 0x1
+#define I8080_FLAG_P 0x2
+#define I8080_FLAG_A 0x4
+#define I8080_FLAG_Z 0x8
+#define I8080_FLAG_S 0x10
+#define I8080_FLAG_ALL 0x1f
+
+#define I8080_OP_ADD 0
+#define I8080_OP_SUB 1
+#define I8080_OP_AND 2
+#define I8080_OP_OR  3
+#define I8080_OP_XOR 4
+
+// Namespace Extension
 namespace i8080 {
+    struct ARGS;
+    
     class cpu;
 
     extern cpu processor;
@@ -65,6 +78,26 @@ public:
     inline u16& retSP() { return sp; }
 
     reg& retReg(u8);
+
+    inline void setCarry() { psw.xh |= 0x1; }
+    inline void clrCarry() { psw.xh &= 0xfe; }
+    inline bool retCarry() { return psw.xh & 0x1; }
+
+    inline void setParity() { psw.xh |= 0x4; }
+    inline void clrParity() { psw.xh &= 0xfb; }
+    inline bool retParity() { return psw.xh & 0x4; }
+
+    inline void setACarry() { psw.xh |= 0x10; }
+    inline void clrACarry() { psw.xh &= 0xef; }
+    inline bool retACarry() { return psw.xh & 0x10; }
+
+    inline void setZero() { psw.xh |= 0x40; }
+    inline void clrZero() { psw.xh &= 0xbf; }
+    inline bool retZero() { return psw.xh & 0x40; }
+
+    inline void setSign() { psw.xh |= 0x80; }
+    inline void clrSign() { psw.xh &= 0x7f; }
+    inline bool retSign() { return psw.xh & 0x80; }
 };
 
 #endif
