@@ -6,6 +6,7 @@
 #include "i8080.h"
 
 // Includes
+#include <cstdio>
 
 // Mainboard Definitions
 

@@ -10,77 +10,118 @@
 
 // Namespace Extension
 namespace i8080 {
-    int MOVr1r2(u8&, u8&);
-    int MOVrM(u16&, u8&);
-    int MOVMr(u16&, u8&);
+    u8 MOVr1r2(u8&, u8&); /// ddd, sss
+    u8 MOVrM(u16&, u8&); /// M, ddd
+    u8 MOVMr(u16&, u8&); /// M, sss
 
-    int SPHL(u16&, u16&);
+    u8 SPHL(u16&, u16&); // SP, HL
 
-    int MVIrd(u16&, u8&);
-    int MVIMd(u16&, u16&);
+    u8 MVIrd(u16&, u8&); // PC, ddd
+    u8 MVIMd(u16&, u16&); // M, PC
 
-    int LXI(u16&, u16&);
+    u8 LXI(u16&, u16&); // PC, dd
 
-    int LDA(u16&, u8&);
+    u8 LDA(u16&, u8&); // PC, A
 
-    int STA(u16&, u8&);
+    u8 STA(u16&, u8&);// PC, A
 
-    int LHLD(u16&, u16&);
+    u8 LHLD(u16&, u16&); // PC, HL
 
-    int SHLD(u16&, u16&);
+    u8 SHLD(u16&, u16&); // PC, HL
 
-    int LDAX(u8);
+    u8 LDAX(u16&, u8&); // rp, A
 
-    int STAX(u8);
+    u8 STAX(u16&, u8&); // rp, A
 
-    int XCHG();
+    u8 XCHG(u16&, u16&); // HL, DE
 
-    int ADDr(u8);
-    int ADDM();
+    u8 ADDr(u8&, u8&); // A, sss
+    u8 ADDM(u16&, u8&); // M, A
 
-    int ADI();
+    u8 ADI(u16&, u8&); // PC, A
 
-    int ADCr();
-    int ADCM();
+    u8 ADCr(u8&, u8&); // A, sss
+    u8 ADCM(u16&, u8&); // M, A
 
-    int ACI();
+    u8 ACI(u16&, u8&); // PC, A
 
-    int SUBr(u8);
-    int SUBM();
+    u8 SUBr(u8&, u8&); // A, sss
+    u8 SUBM(u16&, u8&); // M, A
 
-    int SUI();
+    u8 SUI(u16&, u8&); // PC, A
 
-    int SBBr(u8);
-    int SBBM();
+    u8 SBBr(u8&, u8&); // A, sss
+    u8 SBBM(u16&, u8&); // M, A
 
-    int SBI();
+    u8 SBI(u16&, u8&); // PC, A
 
-    int INRr(u8);
-    int INRM();
+    u8 INRr(u8&); // ddd
+    u8 INRM(u16&); // M
 
-    int DCRr(u8);
-    int DCRM(u8);
+    u8 DCRr(u8&); // ddd
+    u8 DCRM(u16&); // M
 
-    int INX(u8);
+    u8 INX(u16&); // rp
 
-    int DCX(u8);
+    u8 DCX(u16&); // rp
 
-    int DAD(u8);
+    u8 DAD(u16&, u16&); // HL, rp
 
-    int DAA();
+    u8 DAA(u8&); // A
 
-    int ANAr(u8);
-    int ANAM();
+    u8 ANAr(u8&, u8&); // A, sss
+    u8 ANAM(u16&, u8&); // M, A
 
-    int ANI();
+    u8 ANI(u16&, u8&); // PC, A
 
-    int XRAr(u8);
-    int XRAM();
+    u8 XRAr(u8&, u8&); // A, sss
+    u8 XRAM(u16&, u8&); // M, A
 
-    int XRI();
+    u8 XRI(u16&, u8&); // PC, A
 
-    int ORAr(u8);
-    int ORAM();
+    u8 ORAr(u8&, u8&); // A, sss
+    u8 ORAM(u16&, u8&); // M, A
+
+    u8 ORI(u16&, u8&); // PC, A
+
+    u8 CMPr(u8&, u8&); // A, sss
+    u8 CMPM(u16&, u8&); // M, A
+
+    u8 CPI(u16&, u8&); // PC, A
+
+    u8 RLC(u8&); // A
+
+    u8 RRC(u8&); // A
+
+    u8 RAL(u8&); // A
+
+    u8 RAR(u8&); // A
+
+    u8 CMA(u8&); // A
+
+    u8 CMC();
+
+    u8 STC();
+
+    u8 JMP(u16&); // PC
+
+    u8 CALL(u16&, u16&); // PC, SP
+
+    u8 RET(u16&, u16&); // PC, SP
+
+    u8 RST(u16&, u16&, u8); // PC, SP, nnn
+
+    u8 PCHL(u16&, u16&); // PC, HL
+
+    u8 PUSH(u16&, u16&); // SP, rp
+
+    u8 POP(u16&, u16&); // SP, rp
+
+    u8 XTHL(u16&, u16&); // SP, HL
+
+    u8 IN(u16&, u8&); // PC, A
+
+    u8 OUT(u16&, u8&); // PC, A
 }
 
 #endif
