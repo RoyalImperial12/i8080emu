@@ -62,13 +62,10 @@
 #define I8080_SIGN(a) (a & 0x80) ? I8080_ES_SIGN : I8080_EC_SIGN
 
 // Bind Function Macro
-#define BIND(func, args...) std::bind(func, args)
-#define INSBIND(a, b, args...) insTable[a] = { BIND(b, args) }
+#define INSBIND(a, b, args...) insTable[a] = { std::bind(b, args) }
 
 // Namespace Extension
 namespace i8080 {
-    struct ARGS;
-    
     class cpu;
 
     extern cpu processor;
@@ -104,9 +101,9 @@ private:
 
     std::array<std::function<u8()>, 256> insTable {};
 
-    bool halted = false;
+    bool intEn = true;
 
-    void execute();
+    bool halted = true;
 public:
     cpu();
     ~cpu();
@@ -141,6 +138,12 @@ public:
 
     inline void halt() { halted = true; }
     inline void resume() { halted = false; }
+
+    void execute();
+
+    // Debug Functions
+    inline bool getHalted() { return halted; }
+    inline bool getIntEn() { return intEn; }
 };
 
 #endif

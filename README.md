@@ -4,6 +4,7 @@ An emulator for the Intel 8080, written in C++. Rewritten from my original proje
 ## Build ##
 Requires:
 - GCC `>=` 11
+- FTXUI
 - C++ 23
 
 Clone the repository and build using the given makefile.<br>

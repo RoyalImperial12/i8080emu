@@ -7,6 +7,13 @@
 
 // Includes
 #include <cstdio>
+#include <string>
+#include <thread>
+#include <chrono>
+#include <iomanip>
+#include <iostream>
+
+#include <boost/program_options.hpp>
 
 // Mainboard Definitions
 
@@ -14,15 +21,20 @@
 i8080::cpu i8080::processor;
 i8080::mainboard i8080::mobo;
 
+// Helper Functions
+
+std::string toHex(i8080::u8 val) {
+    std::stringstream ss;
+    ss << std::hex << std::setw(5) << std::setfill('0') << val;
+    return ss.str();
+}
+
 // Main Definition
 
-int main() {
-    // TEST CODE
-    i8080::processor.retReg(0).x = 0xffff;
-    i8080::processor.retReg(7).x = 0x0000;
+int main(int argc, char* argv[]) {
+    i8080::ui ui;
 
-    i8080::MOVr1r2(i8080::processor.retReg(7).xl, i8080::processor.retReg(0).xh);
-    printf("Register x: %#-.4x\n", i8080::processor.retReg(7).x);
+    ui.start();
 
     return 0;
 }

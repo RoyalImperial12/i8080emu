@@ -1,6 +1,7 @@
 CC = gcc
 CXX = g++
 CXXFLAGS = -lstdc++ -std=gnu++23
+LDLIBS = -lftxui-dom -lftxui-screen
 BIN=i8080
 
 SOURCEDIR = src
@@ -15,7 +16,7 @@ dir:
 	mkdir -p $(BUILDDIR)
 
 build: $(OBJ)
-	$(CXX) $(OBJ) -o $(BIN)
+	$(CXX) $(OBJ) $(LDLIBS) -o $(BIN)
 
 $(BUILDDIR)/%.o: $(SOURCEDIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@

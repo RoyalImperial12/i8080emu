@@ -8,6 +8,8 @@
 // Includes
 #include <cinttypes>
 
+#define I8080_CYCLES 2000000
+
 // Base Namespace
 namespace i8080 {
     using u8 = uint8_t;
@@ -25,5 +27,8 @@ namespace i8080 {
 
 // Mainboard Header
 #include "main.h"
+
+// UI Header
+#include "ui.h"
 
 #endif

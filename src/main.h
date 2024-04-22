@@ -8,6 +8,13 @@
 // Main Include
 #include "i8080.h"
 
+#include <chrono>
+
+// Defines
+#define I8080_CLOCK_STEP 0
+#define I8080_CLOCK_FREE 1
+
+// Namespace Extension
 namespace i8080 {
     class mainboard;
 
@@ -16,8 +23,10 @@ namespace i8080 {
 
 class i8080::mainboard {
 private:
-    u8 mem[65536];
-    u8 prt[256];
+    std::array<u8, 65536> mem;
+    std::array<u8, 256> prt;
+
+    bool mode = I8080_CLOCK_STEP;
 public:
     // Memory
     inline u8 rByte(u16 addr) { return mem[addr]; }
@@ -30,6 +39,22 @@ public:
     inline u8 rPrt(u8 addr) { return prt[addr]; }
 
     inline void wPrt(u8 addr, u8 data) { prt[addr] = data; }
+
+    // Cycles
+    uint64_t cycles = 0;
+
+    // Clock
+    inline bool getMode() { return mode; }
+    inline void freerun() { mode = I8080_CLOCK_FREE; }
+
+    // Running?
+    bool running = true;
+
+    // Stepping?
+    bool stepping = false;
+
+    // Interrupt Triggered?
+    bool interrupt = false;
 };
 
 #endif
