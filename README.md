@@ -14,4 +14,4 @@ make`
 
 ## Usage ##
 Acquire Intel 8080 binary files and trail their path after the application in the command line.
-e.g. `./i8080 ROMs/invaders.h`
+<br>e.g. `./i8080 ROMs/invaders.h`
