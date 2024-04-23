@@ -760,7 +760,7 @@ i8080::u8 i8080::STC() {
 // JMP - Jump to Address
 
 i8080::u8 i8080::JMP(u16& PC) {
-    PC = mobo.rWord(PC) + 1;
+    PC = mobo.rWord(PC);
 
     return 10;
 }
@@ -775,7 +775,7 @@ i8080::u8 i8080::CALL(u16& PC, u16& SP) {
     mobo.wByte(SP - 2, PC & 0xff);
     SP -= 2;
 
-    PC = addr + 1;
+    PC = addr;
 
     return 19;
 }

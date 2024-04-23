@@ -1,3 +1,4 @@
 .vscode/*
 src/*.o
 i8080
+ROMs/*

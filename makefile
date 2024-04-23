@@ -1,7 +1,7 @@
 CC = gcc
 CXX = g++
 CXXFLAGS = -lstdc++ -std=gnu++23
-LDLIBS = -lftxui-dom -lftxui-screen
+LDLIBS = -lftxui-dom -lftxui-screen -lboost_program_options
 BIN=i8080
 
 SOURCEDIR = src

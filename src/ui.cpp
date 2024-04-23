@@ -82,13 +82,26 @@ ftxui::Element getRegisters() {
     return doc;
 }
 
+ftxui::Element getPorts() {
+    ftxui::Element doc;
+    std::vector<ftxui::Element> elements;
+
+    for (unsigned int x = 0; x < 0xff; x++) {
+        elements.push_back(ftxui::hbox(ftxui::color(ftxui::Color::GrayDark, ftxui::text(std::format("{:02x} ", i8080::mobo.rPrt(x))))));
+    }
+
+    doc = ftxui::vbox(ftxui::text("Ports"), ftxui::separator(), std::move(elements)) | ftxui::border;
+
+    return doc;
+}
+
 // render - Renders UI
 // arguments: none
 
 void i8080::ui::render() {
     uint16_t block = processor.retPC() / 0x200;
 
-    ftxui::Element doc = ftxui::vbox(std::move(getState()), ftxui::hbox(std::move(getMem(block * 0x200)), std::move(getRegisters())) | ftxui::flex);
+    ftxui::Element doc = ftxui::vbox(std::move(getState()), ftxui::hbox(std::move(getMem(block * 0x200)), std::move(getRegisters()), std::move(getPorts())) | ftxui::flex);
 
     std::cout << rstPos;
     scr.Clear();
