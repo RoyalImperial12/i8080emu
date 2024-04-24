@@ -22,9 +22,6 @@ private:
     void render();
 
     ftxui::Screen scr;
-    std::string rstPos;
-
-    //void clear();
 public:
     ui();
     ~ui();

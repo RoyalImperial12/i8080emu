@@ -771,8 +771,8 @@ i8080::u8 i8080::CALL(u16& PC, u16& SP) {
     u16 addr = mobo.rWord(PC);
     PC += 2;
 
-    mobo.wByte(SP - 1, PC >> 8);
-    mobo.wByte(SP - 2, PC & 0xff);
+    mobo.wByte(mobo.spOffset - (SP - 1), PC >> 8);
+    mobo.wByte(mobo.spOffset - (SP - 2), PC & 0xff);
     SP -= 2;
 
     PC = addr;
@@ -783,7 +783,7 @@ i8080::u8 i8080::CALL(u16& PC, u16& SP) {
 // RET - Return from Subroutine
 
 i8080::u8 i8080::RET(u16& PC, u16& SP) {
-    PC = (mobo.rByte(SP + 1) << 8) | mobo.rByte(SP);
+    PC = (mobo.rByte(mobo.spOffset - (SP + 1)) << 8) | mobo.rByte(mobo.spOffset - (SP));
     SP += 2;
 
     return 10;
@@ -792,8 +792,8 @@ i8080::u8 i8080::RET(u16& PC, u16& SP) {
 // RST - Restart
 
 i8080::u8 i8080::RST(u16& PC, u16& SP, u8 nnn) {
-    mobo.wByte(SP - 1, PC >> 8);
-    mobo.wByte(SP - 2, PC & 0xff);
+    mobo.wByte(mobo.spOffset - (SP - 1), PC >> 8);
+    mobo.wByte(mobo.spOffset - (SP - 2), PC & 0xff);
     SP -= 2;
 
     PC = 8 * nnn;
@@ -812,8 +812,8 @@ i8080::u8 i8080::PCHL(u16& PC, u16& HL) {
 // PUSH - Push to Stack
 
 i8080::u8 i8080::PUSH(u16& SP, u16& rp) {
-    mobo.wByte(SP - 1, rp  >> 8);
-    mobo.wByte(SP - 2, rp & 0xff);
+    mobo.wByte(mobo.spOffset - (SP - 1), rp  >> 8);
+    mobo.wByte(mobo.spOffset - (SP - 2), rp & 0xff);
     SP -= 2;
 
     return 11;
@@ -822,7 +822,7 @@ i8080::u8 i8080::PUSH(u16& SP, u16& rp) {
 // POP - Pop from Stack
 
 i8080::u8 i8080::POP(u16& SP, u16& rp) {
-    rp = (mobo.rByte(SP + 1) << 8) | mobo.rByte(SP);
+    rp = (mobo.rByte(mobo.spOffset - (SP + 1)) << 8) | mobo.rByte(SP);
     SP += 2;
 
     return 10;
@@ -831,7 +831,7 @@ i8080::u8 i8080::POP(u16& SP, u16& rp) {
 // XTHL - Exchange HL with Stack Top
 
 i8080::u8 i8080::XTHL(u16& SP, u16& HL) {
-    u16 data = (mobo.rByte(SP + 1) << 8) | mobo.rByte(SP);
+    u16 data = (mobo.rByte(mobo.spOffset - (SP + 1)) << 8) | mobo.rByte(SP);
     
     mobo.wByte(SP, HL & 0xff);
     mobo.wByte(SP + 1, HL >> 8);

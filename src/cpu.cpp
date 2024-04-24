@@ -345,9 +345,26 @@ i8080::cpu::reg& i8080::cpu::retReg(u8 reg) {
     return psw;
 }
 
+// reset - Reset CPU Emulation
+// Arguments: none
+void i8080::cpu::reset() {
+    psw.x = 0;
+
+    b.x = d.x = h.x = 0;
+
+    pc = sp = 0;
+}
+
 // execute - Execute Function
 // Arguments: none
 void i8080::cpu::execute() {
-    u8 ins = mobo.rByte(pc); pc++;
-    mobo.cycles += insTable[ins]();
+    if ((intEn & mobo.intEn) && mobo.interrupts.size() > 0) {
+        while(mobo.interrupts.size() > 0) {
+            mobo.cycles += insTable[mobo.interrupts.front()]();
+            mobo.interrupts.pop();
+        }
+    } else {
+        u8 ins = mobo.rByte(pc); pc++;
+        mobo.cycles += insTable[ins]();
+    }
 }

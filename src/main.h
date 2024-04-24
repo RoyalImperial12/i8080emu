@@ -8,6 +8,7 @@
 // Main Include
 #include "i8080.h"
 
+#include <queue>
 #include <chrono>
 
 // Defines
@@ -29,11 +30,11 @@ private:
     bool mode = I8080_CLOCK_STEP;
 public:
     // Memory
-    inline u8 rByte(u16 addr) { return mem[addr]; }
-    inline u8 rWord(u16 addr) { return (u16)mem[addr + 1] << 8 | mem[addr]; }
+    inline u8 rByte(u16 addr) { return mem[((addr) & mAddr)]; }
+    inline u8 rWord(u16 addr) { return (u16)mem[((addr + 1) & mAddr)] << 8 | mem[((addr) & mAddr)]; }
 
-    inline void wByte(u16 addr, u8 data) { mem[addr] = data; }
-    inline void wWord(u16 addr, u16 data) { mem[addr + 1] = data >> 8; mem[addr] = data; }
+    inline void wByte(u16 addr, u8 data) { mem[((addr) & mAddr)] = data; }
+    inline void wWord(u16 addr, u16 data) { mem[((addr + 1) & mAddr)] = data >> 8; mem[((addr) & mAddr)] = data; }
 
     // Ports
     inline u8 rPrt(u8 addr) { return prt[addr]; }
@@ -53,8 +54,17 @@ public:
     // Stepping?
     bool stepping = false;
 
-    // Interrupt Triggered?
-    bool interrupt = false;
+    // Interrupt Queue
+    std::queue<u8> interrupts;
+
+    // SP Offset
+    u16 spOffset = 0x0;
+
+    // Mirror Address
+    u16 mAddr = 0x0;
+
+    // Interrupts Enabled?
+    bool intEn = true;
 };
 
 #endif

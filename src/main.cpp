@@ -40,7 +40,10 @@ int main(int argc, char* argv[]) {
 
     desc.add_options()
         ("help,h", "Prints this help message.")
-        ("load,l", boost::program_options::value<std::vector<std::string>>(), "File input");
+        ("load,l", boost::program_options::value<std::vector<std::string>>(), "File input")
+        ("mirror,m", boost::program_options::value<i8080::u16>(), "Mirrors Memory (emulates a restricted memory space)")
+        ("stack,s", boost::program_options::value<i8080::u16>(), "Define stack top")
+        ("freerun,f", "Sets emulation right into freerunning mode");
 
     boost::program_options::variables_map vm;
     boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(desc).positional(p).run(), vm);
@@ -51,6 +54,16 @@ int main(int argc, char* argv[]) {
 
         return 0;
     }
+
+    if (vm.count("stack")) {
+        i8080::mobo.spOffset = vm["stack"].as<i8080::u16>();
+    }
+
+        if (vm.count("mirror")) {
+        i8080::mobo.mAddr = vm["mirror"].as<i8080::u16>();
+    }
+
+    i8080::mobo.mAddr--;
 
     if (vm.count("load")) {
         i8080::u16 memOffset = 0x0;
@@ -81,6 +94,10 @@ int main(int argc, char* argv[]) {
                 memOffset++;
             }
         }
+    }
+
+    if (vm.count("freerun")) {
+        i8080::mobo.freerun();
     }
 
     i8080::ui ui;

@@ -12,7 +12,7 @@
 #include <format>
 
 // UI Constructor
-i8080::ui::ui() : scr(ftxui::Screen::Create(ftxui::Dimension::Full(), ftxui::Dimension::Full())), rstPos(scr.ResetPosition()) {
+i8080::ui::ui() : scr(ftxui::Screen::Create(ftxui::Dimension::Full(), ftxui::Dimension::Full())) {
     
 }
 
@@ -28,7 +28,7 @@ ftxui::Element getState() {
 
     (i8080::processor.getHalted()) ? elements.push_back(ftxui::hbox(ftxui::color(ftxui::Color::Green, ftxui::text("Halted")) | ftxui::size(ftxui::WIDTH, ftxui::EQUAL, 15))) : elements.push_back(ftxui::hbox(ftxui::color(ftxui::Color::Red, ftxui::text("Halted")) | ftxui::size(ftxui::WIDTH, ftxui::EQUAL, 15)));
 
-    (i8080::mobo.interrupt) ? elements.push_back(ftxui::hbox(ftxui::color(ftxui::Color::Green, ftxui::text("Interrupt")) | ftxui::size(ftxui::WIDTH, ftxui::EQUAL, 15))) : elements.push_back(ftxui::hbox(ftxui::color(ftxui::Color::Red, ftxui::text("Interrupt")) | ftxui::size(ftxui::WIDTH, ftxui::EQUAL, 15)));
+    (i8080::mobo.interrupts.size() > 0) ? elements.push_back(ftxui::hbox(ftxui::color(ftxui::Color::Green, ftxui::text("Interrupt")) | ftxui::size(ftxui::WIDTH, ftxui::EQUAL, 15))) : elements.push_back(ftxui::hbox(ftxui::color(ftxui::Color::Red, ftxui::text("Interrupt")) | ftxui::size(ftxui::WIDTH, ftxui::EQUAL, 15)));
 
     doc = ftxui::vbox(ftxui::text("Emulation State"), ftxui::separator(), ftxui::hbox(std::move(elements))) | ftxui::border;
 
@@ -103,15 +103,9 @@ void i8080::ui::render() {
 
     ftxui::Element doc = ftxui::vbox(std::move(getState()), ftxui::hbox(std::move(getMem(block * 0x200)), std::move(getRegisters()), std::move(getPorts())) | ftxui::flex);
 
-    std::cout << rstPos;
-    scr.Clear();
-    scr.Print();
-    std::cout << rstPos;
-
     ftxui::Render(scr, doc);
 
     scr.Print();
-    rstPos = scr.ResetPosition();
 }
 
 // start - Starts Emulation
@@ -125,14 +119,16 @@ void i8080::ui::start() {
         if (mobo.getMode() == I8080_CLOCK_STEP) {
             std::string c;
             std::cin >> c;
-            if (c == "e" || c == "exit") {
+            if (c == "e" || c == "exit" || c == "q" || c == "quit") {
                 return;
             } else if (c == "f" || c == "freerun") {
                 mobo.freerun();
                 nextTime = std::chrono::high_resolution_clock::now() + std::chrono::seconds(1);
-            } else {
+            } else if (c == "r" || c == "reset") {
+                i8080::processor.reset();
+            } else if (c == "s" || c == "step") {
                 processor.execute();
-            }
+            } else { }
         } else {
             while (true) {
                 if (mobo.cycles < I8080_CYCLES) {

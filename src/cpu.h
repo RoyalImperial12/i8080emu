@@ -139,6 +139,8 @@ public:
     inline void halt() { halted = true; }
     inline void resume() { halted = false; }
 
+    void reset();
+
     void execute();
 
     // Debug Functions
