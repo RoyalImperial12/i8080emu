@@ -1,6 +1,8 @@
 # Intel 8080 Emulator #
 An emulator for the Intel 8080, written in C++. Rewritten from my original project, now found at i8080_o.
 
+Currently only supports Linux.
+
 ## Build ##
 Requires:
 - GCC `>=` 11
