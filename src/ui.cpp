@@ -43,8 +43,10 @@ ftxui::Element getMem(i8080::u16 memOffset) {
 
     std::stringstream ss;
 
-    for (unsigned int i = 0; i < 1000; i += 16) {
-        ss.clear();
+    elements.push_back(ftxui::hbox(ftxui::text("xxxx 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f")));
+
+    for (unsigned int i = 0; i < 1024; i += 16) {
+        ss.str("");
         for (unsigned int x = 0; x < 0x10; x++) {
             ss << std::format("{:02x}", i8080::mobo.rByte(memOffset + i + x)) << " ";
         }
@@ -53,9 +55,9 @@ ftxui::Element getMem(i8080::u16 memOffset) {
         } else {
             elements.push_back(ftxui::hbox(ftxui::text(std::format("{:04x} ", memOffset + i)), ftxui::color(ftxui::Color::GrayDark, ftxui::text(ss.str()))));
         }
-
-        ss.str("");
     }
+
+    ss.str("");
 
     doc = ftxui::vbox(ftxui::text("Memory"), ftxui::separator(), std::move(elements)) | ftxui::border;
 
@@ -86,9 +88,20 @@ ftxui::Element getPorts() {
     ftxui::Element doc;
     std::vector<ftxui::Element> elements;
 
-    for (unsigned int x = 0; x < 0xff; x++) {
-        elements.push_back(ftxui::hbox(ftxui::color(ftxui::Color::GrayDark, ftxui::text(std::format("{:02x} ", i8080::mobo.rPrt(x))))));
+    std::stringstream ss;
+
+    elements.push_back(ftxui::hbox(ftxui::text("xx x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xa xb xc xd xe xf")));
+
+    for (int x = 0; x <= 0xff; x += 16) {
+        ss.str("");
+        for (int y = 0; y < 0x10; y++) {
+            ss << std::format("{:02x}", i8080::mobo.rPrt(x + y)) << " ";
+        }
+
+        elements.push_back(ftxui::hbox(ftxui::text(std::format("{:01x}x ", (x & 0xf0) >> 8)), ftxui::color(ftxui::Color::GrayDark, ftxui::text(ss.str()))));
     }
+
+    ss.str("");
 
     doc = ftxui::vbox(ftxui::text("Ports"), ftxui::separator(), std::move(elements)) | ftxui::border;
 

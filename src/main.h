@@ -57,9 +57,6 @@ public:
     // Interrupt Queue
     std::queue<u8> interrupts;
 
-    // SP Offset
-    u16 spOffset = 0x0;
-
     // Mirror Address
     u16 mAddr = 0x0;
 

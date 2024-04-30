@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
     }
 
     if (vm.count("stack")) {
-        i8080::mobo.spOffset = vm["stack"].as<i8080::u16>();
+        i8080::processor.retSP() = vm["stack"].as<i8080::u16>();
     }
 
         if (vm.count("mirror")) {
@@ -69,7 +69,6 @@ int main(int argc, char* argv[]) {
         i8080::u16 memOffset = 0x0;
 
         for (std::string string : vm["load"].as<std::vector<std::string>>()) {
-            std::cout << string << std::endl;
             std::ifstream f(string, std::ios::binary);
 
             if (!f) {
@@ -93,6 +92,8 @@ int main(int argc, char* argv[]) {
                 i8080::mobo.wByte(memOffset, byte);
                 memOffset++;
             }
+            
+            data.clear();
         }
     }
 
