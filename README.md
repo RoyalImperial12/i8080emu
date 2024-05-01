@@ -16,6 +16,7 @@ Clone the repository and build using the given makefile.<br>
 ## Usage ##
 Acquire Intel 8080 binary files and trail their path after the application in the command line.
 <br>e.g. `./i8080 ROMs/invaders.h` or `./i8080 ROMs/invaders.h ROMs/invaders.g ROMs/invaders.f ROMs/invaders.e`
+<br>Additional Commands can be attained from running `./i8080 -h` or `./i8080 --help`
 
 <br>Commands:
 <br>The following commands can be entered into std::cin when looking at the UI. Multiple versions of the same command are separated by spaces.
